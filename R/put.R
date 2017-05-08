@@ -117,7 +117,7 @@ toggl_create <- function(
   start=now(),
   stop,
   duration,
-  api_token=get_toggl_api_token()){
+  api_token=get_toggl_api_token(),workspace_id,project_id){
   if (is.null(api_token)){
     stop("you have to set your api token using options(toggl_api_token = 'XXXXXXXX')")
     
@@ -138,6 +138,8 @@ toggl_create <- function(
        authenticate(api_token,"api_token"),
        encode="json",
        body=toJSON(list(time_entry = list(description = description,
+                                   wid=workspace_id,
+                                   pid=project_id,
                                    created_with = "togglr",
                                    duronly=FALSE,
                                    duration=duration,
