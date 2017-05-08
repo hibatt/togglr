@@ -32,3 +32,9 @@ get_current <- function(api_token=get_toggl_api_token()){
               encode="json"))$data
   
 }
+
+get_workspaces<-function(){
+content(GET("https://www.toggl.com/api/v8/workspaces",     verbose(),
+    authenticate(api_token,"api_token"),
+    encode="json"))
+  }
