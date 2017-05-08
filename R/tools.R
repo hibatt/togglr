@@ -4,7 +4,7 @@
 #' @param time as POSIXt
 #' @export
 correct_date <- function(time){
-  paste0(gsub(" ","T",as.character(time)))
+  paste0(gsub(" ","T",as.character(time)),"+00:00")
 }
 
 #' @title get_toggl_api_token
