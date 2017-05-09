@@ -33,7 +33,19 @@ get_current <- function(api_token=get_toggl_api_token()){
   
 }
 
-
+#' @title get_workspaces
+#' @description  retrieve workspaces
+#' @param api_token the toggl api token
+#' @importFrom httr GET authenticate content
+#' @export
+get_workspaces<-function(api_token=get_toggl_api_token()){
+  if (is.null(api_token)){
+    stop("you have to set your api token using options(toggl_api_token = 'XXXXXXXX')")
+  }
+  content(GET("https://www.toggl.com/api/v8/workspaces",     verbose(),
+      authenticate(api_token,"api_token"),
+      encode="json"))$data
+}
 
 # get_current <- function(api_token=get_toggl_api_token()){
 #   if (is.null(api_token)){
