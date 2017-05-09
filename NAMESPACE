@@ -3,6 +3,7 @@
 export(correct_date)
 export(get_context)
 export(get_workspaces)
+export(get_projects)
 export(get_current)
 export(get_toggl_api_token)
 export(toggl_create)
