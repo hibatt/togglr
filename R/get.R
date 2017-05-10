@@ -52,7 +52,7 @@ get_projects <- function(wid,api_token=get_toggl_api_token()){
   if (is.null(api_token)){
     stop("you have to set your api token using options(toggl_api_token = 'XXXXXXXX')")
   }
-  content(GET(paste0("https://www.toggl.com/api/v8/workspaces/",wid,"projects"),
+  content(GET(paste0("https://www.toggl.com/api/v8/workspaces/",wid,"/projects"),
               verbose(),
               authenticate(api_token,"api_token"),
               encode="json"))

@@ -117,7 +117,7 @@ toggl_create <- function(
   start=now(),
   stop,
   duration,
-  api_token=get_toggl_api_token(),workspace_id,project_id){
+  api_token=get_toggl_api_token(),workspace_id,project_id=NULL){
   if (is.null(api_token)){
     stop("you have to set your api token using options(toggl_api_token = 'XXXXXXXX')")
     
