@@ -12,9 +12,6 @@ options(toggl_api_token = "XXXXXXXX")
 toggl_start()
 browseURL("https://www.toggl.com/app/timer")
 
-#with agent ( see <https://github.com/ropensci/agent>)
-toggl_start()
-
 ```
 
 
@@ -26,8 +23,6 @@ toggl_start()
 
 ```R
 # install.packages("devtools")
-devtools::install_github("ThinkRstat/togglr")#without agent
-
-devtools::install_github("ThinkRstat/togglr", ref="agent")# with agent
+devtools::install_github("hibatt/togglr")#without agent
 
 ```
