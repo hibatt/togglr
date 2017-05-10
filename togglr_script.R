@@ -5,40 +5,42 @@ library(chron)
 
 
 #set api token
-options(toggl_api_token = "ee543d211a7de3a8071f3745b4eaa272")
+options(toggl_api_token = "")
 
 
 
 hrs_per_day<-9
-month_start<-"5/8/17"
-month_end<-"5/8/17"
+month_start<-"4/1/17"
+month_end<-"4/30/17"
 time_zone<-"America/Chicago"
 workspace_name="Education Analytics"
 
 
 
-#time split data
+#time split data -- currently unit free -- later on the script calculates ratios out of these
 percentages<-rbind(
-c("SEL Research"                              , 10 ),
-c("Dev Database"                              , 10 ),
+c("SEL Research"                              , 20  ),
+c("Dev Database"                              , 0  ),
     
-c("CORE General Analytics Support"            , 0  ),
-c("CORE Growth Model"                         , 0  ),
-c("CORE Human Capital Analytics"              , 0  ),
-c("MAP New York"                              , 0  ),
-c("Virginia Growth"                           , 0  ),
-c("Linked Learning Alliance"                  , 0  ),
-c("Delaware School and Teacher Growth"        , 0  ),
+c("CORE General Analytics Support"            , 5  ),
+c("CORE Growth Model"                         , 1  ),
+c("CORE Human Capital Analytics"              , 7  ),
+c("Hillsborough Contracted Research"          , 3  ),
+c("Virginia Growth"                           , 6  ),
+c("Linked Learning Alliance"                  , 11  ),
+c("Hillsborough Growth"                       , 2  ),
+c("IHE"                                       , 2  ),
     
-c("Business Development"                      , 0  ),
-c("Operations Management"                     , 0  ),
-c("Strategic Management"                      , 0  ),
-c("Staff Management"                          , 0  ),
+c("Business Development"                      , 27  ),
+c("Operations Management"                     , 50  ),
+c("Strategic Management"                      , 5  ),
+c("Staff Management"                          , 9  ),
 c("Professional Planning and Review"          , 0  ),
-c("EA Staff Meeting"                          , 0  ),
+c("EA Staff Meeting"                          , 4  ),
+c("Board Management"                          , 0  ),
     
-c("Internal Research"                         , 0  ),
-c("General Admin"                             , 0  ))
+c("Internal Research"                         , 1  ),
+c("General Admin"                             , 5  ))
 
 ######################
 #pull data from toggl
@@ -49,12 +51,17 @@ wk<-get_workspaces()
 wk_id<-wk[[grep("Education Analytics",wk)]]$id
 #pull project list and metadata
 prj<-get_projects(wk_id)
+usr<-get_users(wk_id)
 
 colnames(percentages)<-c("project","percentage")
 percentages<-as.data.frame(percentages)
 
+#normalize percentages
+percentages$percentage<-as.numeric(as.character(percentages$percentage))
+percentages$percentage<-percentages$percentage/sum(percentages$percentage)
+
 #calculate duration in minutes
-percentages$duration<-chron(times=as.numeric(as.character(percentages$percentage))/100*hrs_per_day/24)
+percentages$duration<-chron(times=percentages$percentage*hrs_per_day/24)
 
 #fill in start times and end times 
 for(i in 1:nrow(percentages))
@@ -84,7 +91,7 @@ percentages<-percentages[percentages$percentage!="0",]
 
 
 date_range<-seq(as.POSIXct(month_start,format="%m/%d/%y"),as.POSIXct(month_end,format="%m/%d/%y"),by="days")
-
+percentages
 
 for(i in 1:length(date_range))
 {
@@ -101,6 +108,7 @@ for(i in 1:length(date_range))
         project_id=as.character(percentages$project_id[j]),
         time_zone=time_zone
         )
+      Sys.sleep(1)
     }
   }
 }
