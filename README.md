@@ -1,4 +1,4 @@
-# thinkR
+# TogglR
 
 an R and Rstudio wrapper for toggl Api.
 <https://www.toggl.com/>
