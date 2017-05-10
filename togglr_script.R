@@ -5,7 +5,7 @@ library(chron)
 
 
 #set api token
-options(toggl_api_token = "")
+options(toggl_api_token = "ee543d211a7de3a8071f3745b4eaa272")
 
 
 
@@ -81,25 +81,6 @@ percentages$end_time<-as.character(chron(times=percentages$end_time))
 percentages<-percentages[percentages$percentage!="0",]
 
 
-
-
-#define time entry function that deals with time zones
-time_entry<-function(description,start_date,start_time,end_date,end_time,time_zone="America/Chicago",project_id,workspace_id)
-{
-  
-
-time_start<-as.POSIXct(paste0(start_date,' ',start_time,collapse=''), format="%Y-%m-%d %H:%M", tz=time_zone)
-time_end<-as.POSIXct(paste0(end_date,' ',end_time,collapse=''), format="%Y-%m-%d %H:%M", tz=time_zone)
-
-
-#convert to gmt for toggl
-
-time_start_g<-format(time_start,tz="GMT")
-time_end_g<-format(time_end,tz="GMT")
-
-
-toggl_create(description, start=time_start_g, stop=time_end_g,workspace_id=workspace_id,project_id=project_id)
-}
 
 
 date_range<-seq(as.POSIXct(month_start,format="%m/%d/%y"),as.POSIXct(month_end,format="%m/%d/%y"),by="days")
